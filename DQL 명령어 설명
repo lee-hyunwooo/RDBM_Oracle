@@ -35,10 +35,18 @@ DQL SELECT문을 사용해서 데이터를 검색하고 필터링하며 원하�
         *ASC : 오름차순 (Default 값)
         *DESC : 내림차순
 
-  UNION : 두 개 이상의 SELECT 문 결과를 결합해서 하나의 결과 집합으로 반환
+  UNION : 두 개 이상의 SELECT 문 결과를 결합해서 하나의 결과 집합으로 반환하는 연산자
+        union 중복된 행을 제거하고 중복된 행을 포함하지 않는 결과를 생성
     예제코드 : SELECT 열이름 FROM 테이블1
               UNION
               SELECT 열이름 FROM 테이블2;
+
+    Select column1, column2,... FROM table1
+
+    union
+    
+     Select column1, column2,... FROM table2
+
 
   JOIN : 다수의 테이블을 연결하여 데이터를 결합하는데 사용
          INNER JOIN, LEFT JOIN, RIGHT JOIN, FULL OUTER JOIN 등 결합유형이 다양함
