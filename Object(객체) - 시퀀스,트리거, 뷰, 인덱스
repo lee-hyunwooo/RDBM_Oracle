@@ -29,7 +29,7 @@
   BEGIN 및 END : 블록을 정의 블록 내에서 틀리거나 수행할 작업을 정의할 수 있음.
                  현재 행에 대한 작업을 수행하거나 다른 로직을 실행하는데 사용
 
-VIEW
+뷰(VIEW)
   논리적 객체
   실제로 데이터를 저장하지 않고 쿼리 결과를 나타내는 가상 테이블
   뷰 자체에서는 데이터를 저장하거나 변경하지 않기 때문에
@@ -40,3 +40,26 @@ VIEW
           넣고자하는 컬럼
   FROM 테이블명
   JOIN;
+
+인덱스(INDEX)
+  데이터베이스 성능을 향상시키는데 중요한 역할을 하는 데이터 구조
+  특정 열(컬럼)에 대한 검색 및 조회 작업을 최적화 하기 위해 사용
+예제코드
+  --employee 테이블이 있다는 가정
+  CREATE TABLE employee (
+    employee_id NEBER(5) PRIMARY KEY,
+    name VARCHAR2(50),
+    hire_date
+);
+
+--인덱스 생성
+CREATE INDEX 생성해놓은인덱스이름 ON 테이블(어떤 열의 값을 기반으로 검색을 빠르게 하기 위해 작성하는 컬럼이름);
+CREATE INDEX index_employeetable ON employee(name);
+
+--인덱스를 사용한 select 예제문
+  SELECT * FROM employee WHERE name = 'KH';
+
+*index는 B-Tree 구조로 되어있음
+B-Tree : 데이터를 저장하고 효율적으로 검색하는데 사용되는 데이터 구조
+Balanced Tredd 주로 데이터베이스 시스템,파일시스템 디스크관리, 파일구조
+                검색엔진 등 다양한 컴퓨팅 시스템에서 인덱싱에 사용
