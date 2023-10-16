@@ -1,0 +1,108 @@
+Object(객체)
+
+시퀀스(Sequence) : 데이터베이스에서 사용되는 객체
+일련의 숫자를 생성하는데 주로 사용
+고유한 값, 주로 기본키 또는 고유 식별자 생성에 사용
+
+예제코드 : 
+ CREATE SEQUENCE 어떤값의_id
+	START WITH 1
+	INCREMENT BY 1
+	NOMAXVALUE
+	NOCYCLE;
+
+ CREATE SEQUENCE : 시퀀스를 생성하는 명령어
+ 어떤값의_id : 생성하려는 시퀀스의 이름을 지정 
+                  데이터베이스에서 해당 시퀀스를 식별하는데 사용
+ START WITH 1 : 시퀀스의 초기 시작 값을 1로 설정
+ INCREMENT BY 1 : 시퀀스의 각 값이 1씩 증가하도록 설정
+ NOMAXVALUE : 시퀀스가 최대값에 도달하지 않도록 설정
+ NOCYCLE :  시퀀스가 최대값에 도달하면 다시 
+                처음으로 돌아가지 않도록 설정
+트리거(Trigger) : 데이터베이스에서 발생하는 특정 이벤트에 반응하여
+	자동으로 실행되는 SQL  코드 조각
+	데이터베이스의 상태를 감시하고 데이터 변경, 삽입, 업데이트
+	또는 삭제와 같은 작업을 행할 수 있음
+ 예제코드 :
+	CREATE OR REPLACE TIGGER 어떤값의_id
+	BEFORE INSERT ON 테이블
+	FOR EACH ROW
+	BEGIN
+		SELECT 어떤값의_id_seq.NEXTVAL
+		INTO : NEW.어떤값의_id
+		FROM dual;
+	END;
+	/
+
+CREATE OR REPLACE TIGGER : 트리거를 생성 또는 변경하는 명령
+OR REPLACE  : 이미 동일한 이름의 트리거가 있는 경우 덮어쓰기를 허용
+어떤값의_id : 생성하려는 트리거의 이름 지정 데이터베이스에서 
+	해당 트리거를 식별하는데 사용
+BEFORE INSERT ON 테이블 : 테이블에 행이 삽입되기 전에 실행
+FOR EACH ROW : 트리거가 각 행별로 실행되도록 설정
+		트리거 내에서 현재 행을 참조할 수 있도록 함
+BEGIN 및 END : 블록을 정의 블록 내에서 틀리거나 수행할 작업을
+		정의할 수 있음
+		현재 행에 대한 작업을 수행하거나
+		다른 로직을 실행하는데 사용
+VIEW
+ 논리적 객체
+실제로 데이터를 저장하지 않고 쿼리 결과를 나타내는 가상 테이블
+ 뷰 자체에서는 데이터를 저장하거나 변경하기 않기 때문에
+ DML명령(INSERT, UPDATE, DELETE)을 통해 뷰를 직접 수정하는 것은
+일반적으로 제한
+예제코드  : 
+ CREATE VIEW 뷰이름생성 AS
+ SELECT 
+	넣고자하는 컬럼
+FROM 테이블명
+JOIN;
+
+CREATE VIEW cafe_order_menu AS
+SELECT
+    o.order_id,
+    c.name AS cafe_name,
+    m.menu_name,
+    o.order_date,
+    o.quantity,
+    m.price,
+    (o.quantity * m.price) AS total_price
+FROM
+    orders o
+    JOIN cafes c ON o.cafe_id = c.cafe_id
+    JOIN menu m ON o.menu_id = m.menu_id;
+
+index (인덱스) : 
+ 데이터베이스 성능을 향상시키는 데 중요한 역할을 하는 데이터 구조
+ 특정 열(컬럼)에 대한 검색 및 조회 작업을 최적화 하기 위해 사용
+
+예제 코드 :
+ --employee 테이블이 있다는 가정
+ CREATE TABLE employee ( 
+	employee_id NEBER(5) PRIMARY KEY,
+	name VARCHAR2(50),
+	hire_date DATE
+);
+
+--인덱스 생성
+ CREATE INDEX 생성해놓은인덱스이름 ON 테이블
+ (어떤 열의 값을 기반으로 검색을 빠르게 하기 위해 작성하는 컬럼이름);
+ CREATE INDEX index_employeetable ON employee(name);
+
+--인덱스를 사용한 select 예제문
+ SELECT * FROM employee WHERE name = 'KH';
+
+* index는 B-Tree  구조로 되어있음
+ B-Tree : 데이터를 저장하고 효율적으로 검색하는데 사용되는 데이터 구조
+ Balanced Tree 주로 데이터베이스 시스템, 파일시스템, 디스크관리, 파일구조
+		검색엔진 등 다양한 컴퓨팅 시스템에서 인덱싱에 사용
+
+ PIVOT : 
+	데이터베이스 쿼리에서 사용되는 연산자 또는 기능
+	행 데이터를 열 데이터로 변환하는 작업을 수행
+	데이터를 행과 열 간을 변환하여 요약된 결과를얻을 수 있음
+                 데이터를 어떤 열 기준으로 피벗할지 정의
+		데이터를 피벗하고 결과 집합을 새로운 열로 구성
+		각 고유한 값은 열이름이 되며, 해당 값의 집계 결과가
+		해당 열에 배치
+		결과 집합에는 기존 데이터의 행과 집계된 열이 포함
